@@ -154,6 +154,9 @@ class RecordApp(FreeseerApp):
         self.connect(self.mainWidget.pauseToolButton, QtCore.SIGNAL('toggled(bool)'), self.pause)
         self.connect(self.mainWidget.audioFeedbackCheckbox, QtCore.SIGNAL('toggled(bool)'), self.toggle_audio_feedback)
 
+        #Nick, play button handler, maybe
+        self.connect(self.mainWidget.playToolButton, QtCore.SIGNAL('toggled(bool)'), self.playBack)
+
         # Main Window Connections
         self.connect(self.actionConfigTool, QtCore.SIGNAL('triggered()'), self.open_configtool)
         self.connect(self.actionTalkEditor, QtCore.SIGNAL('triggered()'), self.open_talkeditor)
@@ -339,6 +342,10 @@ class RecordApp(FreeseerApp):
             toggle_gui(False)
             self.mainWidget.standbyPushButton.setChecked(False)
 
+        #Nick, hide the play button when the standby button is pressed        
+        self.mainWidget.playToolButton.setVisible(False)
+        self.mainWidget.playToolButton.setEnabled(False)
+
     def record(self, state):
         """The logic for recording and stopping recording."""
 
@@ -378,6 +385,12 @@ class RecordApp(FreeseerApp):
             # Stop and reset timer.
             self.timer.stop()
             self.reset_timer()
+            
+            # Nick, show the play button after recording has stopped
+            self.mainWidget.playToolButton.setVisible(True)
+            self.mainWidget.playToolButton.setEnabled(True)
+
+
 
             # Select next talk if there is one within 15 minutes.
             if self.current_event and self.current_room:
@@ -404,6 +417,13 @@ class RecordApp(FreeseerApp):
             self.mainWidget.pauseToolButton.setToolTip(self.pauseString)
             self.mainWidget.statusLabel.setText(self.recordingString)
             self.timer.start(1000)
+
+    ##
+    ##Playback handler
+    ##
+
+    def playBack(self, state):
+        print "Maybe :)"
 
     def load_backend(self):
         """Prepares the backend for recording"""
