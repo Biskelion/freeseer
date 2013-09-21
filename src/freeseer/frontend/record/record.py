@@ -212,7 +212,9 @@ class RecordApp(FreeseerApp):
         elif self.mainWidget.standbyPushButton.isChecked():
             self.mainWidget.statusLabel.setText(self.readyString)
         else:
-            self.mainWidget.statusLabel.setText(self.idleString)
+            self.mainWidget.statusLabel.setText("Free Space: %s --- " % get_free_space(self.config.videodir) + self.idleString)
+
+            
 
         #
         # Menubar
